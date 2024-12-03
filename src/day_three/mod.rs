@@ -1,7 +1,7 @@
-use anyhow::{anyhow,Context, Result};
+use anyhow::{anyhow, Context, Result};
+use regex::Regex;
 use std::fs;
 use std::path::PathBuf;
-use regex::Regex;
 
 fn perform_multiplication(mul: String) -> Result<i32> {
     let parts: Vec<&str> = mul.split("(").collect();
@@ -13,17 +13,21 @@ fn perform_multiplication(mul: String) -> Result<i32> {
         return Err(anyhow!("Unexpected multiplication format for `{}`", mul));
     }
     let parts: Vec<&str> = parts[0].split(",").collect();
-    let first_num: i32 = parts[0].parse().context("Unexpected multiplication format for `{}`, during number parsing")?;
-    let sec_num: i32 = parts[1].parse().context("Unexpected multiplication format for `{}`, during number parsing")?;
+    let first_num: i32 = parts[0]
+        .parse()
+        .context("Unexpected multiplication format for `{}`, during number parsing")?;
+    let sec_num: i32 = parts[1]
+        .parse()
+        .context("Unexpected multiplication format for `{}`, during number parsing")?;
     Ok(first_num * sec_num)
 }
-
 
 // Part 1
 fn sum_sans_control_flow(input: &str) -> Result<i32> {
     let re = Regex::new(r"mul\(\d{1,3}\,\d{1,3}\)").context("Failed to generate regex")?;
     let mut total = 0;
-    let results: Vec<String> = re.find_iter(input)
+    let results: Vec<String> = re
+        .find_iter(input)
         .map(|mat| mat.as_str().to_string())
         .collect();
 
@@ -37,7 +41,8 @@ fn sum_sans_control_flow(input: &str) -> Result<i32> {
 fn sum_with_control_flow(input: &str) -> Result<i32> {
     let re = Regex::new(r"mul\(\d{1,3},\d{1,3}\)|don't|do").context("Failed to generate regex")?;
     let mut total = 0;
-    let results: Vec<String> = re.find_iter(input)
+    let results: Vec<String> = re
+        .find_iter(input)
         .map(|mat| mat.as_str().to_string())
         .collect();
     let mut on_flag = true;
@@ -66,9 +71,15 @@ pub fn solve(file_path: &PathBuf) -> Result<()> {
 
     let sans_control_flow_total = sum_sans_control_flow(&input)?;
 
-    println!("multiplication sum (Sans Control Flow): {}", sans_control_flow_total);
-    
+    println!(
+        "multiplication sum (Sans Control Flow): {}",
+        sans_control_flow_total
+    );
+
     let with_control_flow_total = sum_with_control_flow(&input)?;
-    println!("multiplication sum (With Control Flow): {}", with_control_flow_total);
+    println!(
+        "multiplication sum (With Control Flow): {}",
+        with_control_flow_total
+    );
     Ok(())
 }
