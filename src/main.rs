@@ -7,6 +7,7 @@ use std::path::PathBuf;
 pub mod day_1;
 pub mod day_2;
 pub mod day_3;
+pub mod day_4;
 
 fn main() {
     let solutions: HashMap<i32, Box<dyn Fn()>> = [
@@ -28,6 +29,13 @@ fn main() {
             Box::new(|| {
                 day_3::solve(&PathBuf::from("src/day_3/input.txt"))
                     .expect("Failed to solve day three")
+            }) as Box<dyn Fn()>,
+        ),
+        (
+            4_i32,
+            Box::new(|| {
+                day_4::solve(&PathBuf::from("src/day_4/input.txt"))
+                    .expect("Failed to solve day four")
             }) as Box<dyn Fn()>,
         ),
     ]
