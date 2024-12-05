@@ -59,8 +59,6 @@ fn compute_similarity(left_column: Vec<i32>, right_location_id_map: HashMap<i32,
 }
 
 pub fn solve(file_path: PathBuf) -> Result<()> {
-    println!("Day Ooonnnneeee! Let's GO!");
-
     let (left_column, right_column, right_location_id_map) = read_input(file_path)?;
     // Part 1
     get_sum_diff(&left_column, &right_column);

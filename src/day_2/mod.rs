@@ -92,7 +92,6 @@ fn validate_reports_with_problem_dapener(file_path: &PathBuf) -> Result<i32> {
 }
 
 pub fn solve(file_path: &PathBuf) -> Result<()> {
-    println!("Day Twooooo! Let's GO!");
     let valid_report_count = validate_reports(file_path)?;
     println!("Number of valid report is: {}", valid_report_count);
 
