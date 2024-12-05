@@ -8,33 +8,41 @@ pub mod day_1;
 pub mod day_2;
 pub mod day_3;
 pub mod day_4;
+pub mod day_5;
 
 fn main() {
-    let solutions: HashMap<i32, Box<dyn Fn()>> = [
+    let solutions: HashMap<usize, Box<dyn Fn()>> = [
         (
-            1_i32,
+            1,
             Box::new(|| {
                 day_1::solve(PathBuf::from("src/day_1/input.txt")).expect("Failed to solve day one")
             }) as Box<dyn Fn()>,
         ),
         (
-            2_i32,
+            2,
             Box::new(|| {
                 day_2::solve(&PathBuf::from("src/day_2/input.txt"))
                     .expect("Failed to solve day two")
             }) as Box<dyn Fn()>,
         ),
         (
-            3_i32,
+            3,
             Box::new(|| {
                 day_3::solve(&PathBuf::from("src/day_3/input.txt"))
                     .expect("Failed to solve day three")
             }) as Box<dyn Fn()>,
         ),
         (
-            4_i32,
+            4,
             Box::new(|| {
                 day_4::solve(&PathBuf::from("src/day_4/input.txt"))
+                    .expect("Failed to solve day four")
+            }) as Box<dyn Fn()>,
+        ),
+        (
+            5,
+            Box::new(|| {
+                day_5::solve(&PathBuf::from("src/day_5/input.txt"))
                     .expect("Failed to solve day four")
             }) as Box<dyn Fn()>,
         ),
@@ -48,7 +56,7 @@ fn main() {
         .position(|arg| arg == "--day")
         .and_then(|i| args.get(i + 1))
     {
-        Some(day_str) => match day_str.parse::<i32>() {
+        Some(day_str) => match day_str.parse::<usize>() {
             Ok(day) => {
                 if let Some(solve) = solutions.get(&day) {
                     solve();
