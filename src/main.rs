@@ -10,6 +10,7 @@ pub mod day_3;
 pub mod day_4;
 pub mod day_5;
 pub mod day_6;
+pub mod day_7;
 
 macro_rules! create_solutions {
     ($($day:expr => $module:ident),* $(,)?) => {{
@@ -38,6 +39,7 @@ fn main() {
         4 => day_4,
         5 => day_5,
         6 => day_6,
+        7 => day_7,
     };
 
     let args: Vec<String> = env::args().collect();
