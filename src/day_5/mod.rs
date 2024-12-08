@@ -83,27 +83,29 @@ fn process_sequences(
     (total, bad_sequences)
 }
 
-
-fn safe_contains(map: Option<&HashSet<i32>>, value: &i32 ) -> bool{
+fn safe_contains(map: Option<&HashSet<i32>>, value: &i32) -> bool {
     match map {
-        Some(m)=> m.contains(value),
-        None => false
+        Some(m) => m.contains(value),
+        None => false,
     }
 }
 
 // This is O(n) is unclear here, could be O(n^infinity) but I have to go eat dinner ...
 fn sort_sequence(mut sequence: Vec<i32>, rules: &HashMap<i32, HashSet<i32>>) -> Vec<i32> {
     let sort_fn = |a: &i32, b: &i32| {
-        match (safe_contains(rules.get(a), b), safe_contains(rules.get(b), a)) {
-                (true, true) => {
-                    // Consider raising an error
-                    println!("Rule violation for {} and {}", a, b);
-                    Ordering::Equal
-                }
-                (true, false) => Ordering::Less,
-                (false, true) => Ordering::Greater,
-                (false, false) => Ordering::Equal,
+        match (
+            safe_contains(rules.get(a), b),
+            safe_contains(rules.get(b), a),
+        ) {
+            (true, true) => {
+                // Consider raising an error
+                println!("Rule violation for {} and {}", a, b);
+                Ordering::Equal
             }
+            (true, false) => Ordering::Less,
+            (false, true) => Ordering::Greater,
+            (false, false) => Ordering::Equal,
+        }
     };
     // maybe  clone?
     sequence.sort_by(sort_fn);
@@ -128,6 +130,9 @@ pub fn solve(file_path: &PathBuf) -> Result<()> {
     let (sum_valid_sequences, bad_sequences) = process_sequences(sequences, &rules);
     println!("The sum of valid sequences is: {}", sum_valid_sequences);
     let sum_invalid_sequences = re_compute_bad_sequences(bad_sequences, &rules);
-    println!("The sum of re-sorted invalid sequences is: {}", sum_invalid_sequences);
+    println!(
+        "The sum of re-sorted invalid sequences is: {}",
+        sum_invalid_sequences
+    );
     Ok(())
 }
