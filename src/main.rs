@@ -9,6 +9,7 @@ pub mod day_2;
 pub mod day_3;
 pub mod day_4;
 pub mod day_5;
+pub mod day_6;
 
 fn main() {
     let solutions: HashMap<usize, Box<dyn Fn()>> = [
@@ -43,6 +44,13 @@ fn main() {
             5,
             Box::new(|| {
                 day_5::solve(&PathBuf::from("src/day_5/input.txt"))
+                    .expect("Failed to solve day four")
+            }) as Box<dyn Fn()>,
+        ),
+        (
+            6,
+            Box::new(|| {
+                day_6::solve(&PathBuf::from("src/day_6/input.txt"))
                     .expect("Failed to solve day four")
             }) as Box<dyn Fn()>,
         ),
