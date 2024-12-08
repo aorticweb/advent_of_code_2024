@@ -11,52 +11,34 @@ pub mod day_4;
 pub mod day_5;
 pub mod day_6;
 
+macro_rules! create_solutions {
+    ($($day:expr => $module:ident),* $(,)?) => {{
+        let solutions: HashMap<usize, Box<dyn Fn()>> = [
+            $(
+                (
+                    $day,
+                    Box::new(|| {
+                        $module::solve(&PathBuf::from(concat!("src/day_", $day, "/input.txt")))
+                            .expect(&format!("Failed to solve day {}", $day))
+                    }) as Box<dyn Fn()>
+                ),
+            )*
+        ]
+        .into_iter()
+        .collect();
+        solutions
+    }};
+}
+
 fn main() {
-    let solutions: HashMap<usize, Box<dyn Fn()>> = [
-        (
-            1,
-            Box::new(|| {
-                day_1::solve(PathBuf::from("src/day_1/input.txt")).expect("Failed to solve day one")
-            }) as Box<dyn Fn()>,
-        ),
-        (
-            2,
-            Box::new(|| {
-                day_2::solve(&PathBuf::from("src/day_2/input.txt"))
-                    .expect("Failed to solve day two")
-            }) as Box<dyn Fn()>,
-        ),
-        (
-            3,
-            Box::new(|| {
-                day_3::solve(&PathBuf::from("src/day_3/input.txt"))
-                    .expect("Failed to solve day three")
-            }) as Box<dyn Fn()>,
-        ),
-        (
-            4,
-            Box::new(|| {
-                day_4::solve(&PathBuf::from("src/day_4/input.txt"))
-                    .expect("Failed to solve day four")
-            }) as Box<dyn Fn()>,
-        ),
-        (
-            5,
-            Box::new(|| {
-                day_5::solve(&PathBuf::from("src/day_5/input.txt"))
-                    .expect("Failed to solve day four")
-            }) as Box<dyn Fn()>,
-        ),
-        (
-            6,
-            Box::new(|| {
-                day_6::solve(&PathBuf::from("src/day_6/input.txt"))
-                    .expect("Failed to solve day four")
-            }) as Box<dyn Fn()>,
-        ),
-    ]
-    .into_iter()
-    .collect();
+    let solutions = create_solutions! {
+        1 => day_1,
+        2 => day_2,
+        3 => day_3,
+        4 => day_4,
+        5 => day_5,
+        6 => day_6,
+    };
 
     let args: Vec<String> = env::args().collect();
     match args

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
 
-fn read_input(file_path: PathBuf) -> Result<(Vec<i32>, Vec<i32>, HashMap<i32, i32>)> {
+fn read_input(file_path: &PathBuf) -> Result<(Vec<i32>, Vec<i32>, HashMap<i32, i32>)> {
     let input = fs::read_to_string(file_path).context("Failed to read input file")?;
     let mut left_column: Vec<i32> = Vec::new();
     let mut right_column: Vec<i32> = Vec::new();
@@ -58,7 +58,7 @@ fn compute_similarity(left_column: Vec<i32>, right_location_id_map: HashMap<i32,
     println!("Similarity score: {}", similarity_score);
 }
 
-pub fn solve(file_path: PathBuf) -> Result<()> {
+pub fn solve(file_path: &PathBuf) -> Result<()> {
     let (left_column, right_column, right_location_id_map) = read_input(file_path)?;
     // Part 1
     get_sum_diff(&left_column, &right_column);
