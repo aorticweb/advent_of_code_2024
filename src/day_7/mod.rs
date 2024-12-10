@@ -6,7 +6,7 @@ use std::path::PathBuf;
 enum Operation {
     Add,
     Multiply,
-    Concat
+    Concat,
 }
 
 impl Operation {
@@ -14,8 +14,10 @@ impl Operation {
         match self {
             Self::Add => a + b,
             Self::Multiply => a * b,
-            // We are doing an unwrap here because we control a and b 
-            Self::Concat => {(a.to_string() + b.to_string().as_str()).parse::<i64>().unwrap()}
+            // We are doing an unwrap here because we control a and b
+            Self::Concat => (a.to_string() + b.to_string().as_str())
+                .parse::<i64>()
+                .unwrap(),
         }
     }
 }
@@ -48,8 +50,7 @@ struct Equation {
 
 impl Equation {
     fn compute_valid_solution(&self, all_ops: &[Operation]) -> i64 {
-        for ops in all_combinations(all_ops, self.inputs.len() - 1)
-        {
+        for ops in all_combinations(all_ops, self.inputs.len() - 1) {
             if self.is_valid_solution(&ops) {
                 return self.output;
             }
@@ -81,7 +82,10 @@ fn read_input(file_path: &PathBuf) -> Result<Vec<Equation>> {
                 .split_once(':')
                 .context(format!("Invalid line format, missing ':', `{}`", line))?;
             Ok(Equation {
-                output: output.trim().parse().context(format!("Failed to parse output for line: `{}`", line))?,
+                output: output
+                    .trim()
+                    .parse()
+                    .context(format!("Failed to parse output for line: `{}`", line))?,
                 inputs: inputs
                     .trim_start()
                     .split(' ')
@@ -105,9 +109,13 @@ pub fn solve(file_path: &PathBuf) -> Result<()> {
 
     // part 2:
     for eq in equations.iter() {
-        total += eq.compute_valid_solution(&[Operation::Add, Operation::Multiply, Operation::Concat]);
+        total +=
+            eq.compute_valid_solution(&[Operation::Add, Operation::Multiply, Operation::Concat]);
     }
-    println!("the total value when including concat operator is {}", total);
+    println!(
+        "the total value when including concat operator is {}",
+        total
+    );
 
     Ok(())
 }
